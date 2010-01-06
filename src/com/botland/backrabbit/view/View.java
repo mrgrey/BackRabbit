@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferStrategy;
 
 /**
  * Author: Vladimir Batygin
@@ -23,11 +24,13 @@ public class View extends JFrame {
     boolean upKey = false;
     boolean downKey = false;
     boolean fireKey = false;
+    private static final int STEP = 4;
 
 
     public View() throws HeadlessException {
+        
 
-        new Timer(10, new ActionListener() {
+        new Timer(20, new ActionListener() {
 
             public void actionPerformed(final ActionEvent e) {
                 moveRabbit();
@@ -81,15 +84,20 @@ public class View extends JFrame {
     }
 
     private void moveRabbit() {
-        rabbitX += rightKey ? 1 : (leftKey ? -1 : 0);
-        rabbitY += downKey ? 1 : (upKey ? -1 : 0);
+        rabbitX += rightKey ? STEP : (leftKey ? -STEP : 0);
+        rabbitY += downKey ? STEP : (upKey ? -STEP : 0);
     }
 
     @Override
-    public void paint(final Graphics g) {
+    public void paint(Graphics g) {
+        final BufferStrategy bs = this.getBufferStrategy();
+        if (bs.getDrawGraphics() != null) {
+            g = bs.getDrawGraphics();
+        }
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
         rabbitComponent.paint(g, rabbitX, rabbitY);
+        bs.show();
     }
 
     public enum DIRECTIONS {
