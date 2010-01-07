@@ -1,16 +1,33 @@
 package com.botland.backrabbit.model;
 
 import com.botland.backrabbit.util.Position;
-import com.botland.backrabbit.view.Drawable.InteractableAction;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: Yury Chuyko aka mrgrey
  * Date: 07.01.2010
  */
-public abstract class AbstractApplicableObject extends AbstractGameObject {
+public abstract class AbstractApplicableObject extends AbstractGameObject implements Applicable {
+    private Map<GameObject, Position> backupPositions = new HashMap<GameObject, Position>();
+
     protected AbstractApplicableObject(final Position position) {
         super(position);
     }
 
-    abstract InteractableAction getAction(GameObject object);
+    public void doPositionValidatedAction(final GameObject target) {
+        if(backupPositions.containsKey(target)) {
+            backupPositions.remove(target);
+        }
+        backupPositions.put(target, Position.fromPosition(target.getPosition()));
+        getAction(target).perform();
+    }
+
+    public void rollback(GameObject target) {
+        if(!backupPositions.containsKey(target)) {
+            throw new RuntimeException("Can't rollback! Sorry! :(");
+        }
+        target.setPosition(backupPositions.remove(target));
+    }
 }

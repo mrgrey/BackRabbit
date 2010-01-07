@@ -56,7 +56,6 @@ public class GameScene {
                 y > pos.getY() && y < pos.getY() + gameObject.getHeight();
     }
 
-
     public void setRabbitJump(boolean b) {
         if (!rabbit.isFalling()) {
             rabbit.setJumping(b);
@@ -79,9 +78,38 @@ public class GameScene {
         } else {
             rabbit.setFalling(false);
         }
+        for(final GameObject gameObject : gameObjects) {
+            if(gameObject.isApplicable(rabbit) && isTouchApplicable(gameObject)) {
+                ((Applicable)gameObject).doPositionValidatedAction(rabbit);
+                if(!isValidRabbitPosition()) {
+                    ((Applicable)gameObject).rollback(rabbit);    
+                }
+                break;
+            }
+        }
     }
 
     private boolean hasWalls(final DIRECTIONS up) {
        return hasWalls(up, 1);
+    }
+
+    private boolean isTouchApplicable(final GameObject object) {
+        //TODO: fix to TOUCH, not being in
+        final Position rabbitPosition = rabbit.getPosition();
+        final Position objectPosition = object.getPosition();
+        return rabbitPosition.getX() == objectPosition.getX() && rabbitPosition.getY() == objectPosition.getY();
+    }
+
+    private boolean isValidRabbitPosition() {
+        for(final GameObject gameObject : gameObjects) {
+            if(gameObject instanceof Wall && isInersect(gameObject, rabbit)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isInersect(final GameObject first, final GameObject second) {
+        return false; //TODO: fix me
     }
 }

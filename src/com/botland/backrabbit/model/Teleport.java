@@ -8,17 +8,16 @@ import com.botland.backrabbit.view.Drawable.InteractableAction;
  * Date: 07.01.2010
  */
 public class Teleport extends AbstractApplicableObject {
-    private final int height = 30;
-    private final int width = 30;
     private Position targetPosition;
 
     public Teleport(final Position position, final Position targetPosition) {
         super(position);
         this.targetPosition = targetPosition;
+        height = 30;
+        width = 30;
     }
 
-    @Override
-    InteractableAction getAction(final GameObject object) {
+    public InteractableAction getAction(final GameObject object) {
         if(!isApplicable(object)) {
             return new InteractableAction() {
                 public void perform() {

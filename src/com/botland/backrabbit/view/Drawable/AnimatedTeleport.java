@@ -1,17 +1,27 @@
 package com.botland.backrabbit.view.Drawable;
 
+import com.botland.backrabbit.model.Teleport;
+import com.botland.backrabbit.util.Position;
+
 import java.awt.*;
 
 /**
  * User: Yury Chuyko aka mrgrey
  * Date: 07.01.2010
  */
-public class AnimatedTeleport extends AbstractAnimatedInteractableObject {
-    public AnimatedTeleport() {
+public class AnimatedTeleport extends AbstractAnimatedObject {
+    private final Teleport teleport;
+    public AnimatedTeleport(Teleport teleport) {
         super(2);
+
+        this.teleport = teleport;
     }
 
-    public void paint(final Graphics g, final int x, final int y) {
+    public Teleport getTeleport() {
+        return teleport;
+    }
+
+    public void paint(final Graphics g) {
         switch (getAnimationState()) {
             case 0:
                 g.setColor(Color.BLUE);
@@ -23,7 +33,9 @@ public class AnimatedTeleport extends AbstractAnimatedInteractableObject {
                 g.setColor(Color.BLACK);
                 break;
         }
-        g.fillRect(x,y,30,30);
+        final Position position = teleport.getPosition();
+        g.fillRect(position.getX(),position.getY(),teleport.getWidth(),teleport.getHeight());
+
         nextFrame();
     }
 }
