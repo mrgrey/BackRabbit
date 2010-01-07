@@ -12,6 +12,8 @@ public class Main {
         System.out.println("Hello, I am Back Rabbit!");
         View view = new View();
         view.setVisible(true);
-        view.createBufferStrategy(10);
+        view.createBufferStrategy(3
+
+        );
     }
 }

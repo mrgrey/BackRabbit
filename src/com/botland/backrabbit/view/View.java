@@ -26,6 +26,9 @@ public class View extends JFrame {
     boolean fireKey = false;
     private static final int STEP = 4;
     private Timer timer;
+    private boolean jump = false;
+    private int alreadyJumped = 0;
+    private boolean falldown = false;
 
 
     public View() throws HeadlessException {
@@ -48,13 +51,11 @@ public class View extends JFrame {
 
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                final boolean b = true;
-                keyActions(e, b);
+                keyActions(e, true);
             }
 
             public void keyReleased(KeyEvent e) {
-                final boolean b = false;
-                keyActions(e, b);
+                keyActions(e, false);
             }
         });
 
@@ -74,6 +75,7 @@ public class View extends JFrame {
                 break;
             case KeyEvent.VK_UP:
                 upKey = b;
+                if (!falldown)jump = b;
                 break;
             case KeyEvent.VK_DOWN:
                 downKey = b;
@@ -85,12 +87,51 @@ public class View extends JFrame {
     }
 
     private boolean moveRabbit() {
-        if (!flag()) {
+        if (!flag() && !jump && isWallDown()) {
+            falldown = false;
             return false;
         }
-        rabbitX += rightKey ? STEP : (leftKey ? -STEP : 0);
-        rabbitY += downKey ? STEP : (upKey ? -STEP : 0);
+        if (rightKey && allowedRight()) {
+            rabbitX += STEP;
+        }
+        if (leftKey && allowedLeft()) {
+           rabbitX -=STEP;
+        }
+    //    rabbitX += rightKey ? STEP : (leftKey ? -STEP : 0);
+     //   rabbitY += downKey ? STEP : 0;
+        if (jump && alreadyJumped < rabbitComponent.MAX_JUMP_HEIGHT) {
+            rabbitY -= 4 * STEP;
+            alreadyJumped += 4 * STEP;
+        } else {
+            alreadyJumped = 0;
+            jump = false;
+        }
+        if (!isWallDown()) {
+            rabbitY += STEP;
+            falldown = true;
+        } else {
+            falldown = false;
+        }
+
         return true;
+    }
+
+    private boolean allowedLeft() {
+        if (rabbitX <= 30) {
+            return false;
+        }
+        if (rabbitX <= 500 && rabbitY > 370) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean allowedRight() {
+        return rabbitX <= 565;
+    }
+
+    private boolean isWallDown() {
+        return (rabbitX < 465 && rabbitY >= 370) || (rabbitY >= 570);
     }
 
     @Override
@@ -102,7 +143,12 @@ public class View extends JFrame {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
         rabbitComponent.paint(g, rabbitX, rabbitY);
-        bs.show();
+        g.setColor(Color.BLACK);
+        g.drawLine(0, 400, 500, 400);
+        g.drawLine(500, 400, 500, 600);
+        if (bs != null) {
+            bs.show();
+        }
     }
 
     public enum DIRECTIONS {
