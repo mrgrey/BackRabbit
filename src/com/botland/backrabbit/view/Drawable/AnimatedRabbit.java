@@ -1,5 +1,8 @@
 package com.botland.backrabbit.view.Drawable;
 
+import com.botland.backrabbit.model.Rabbit;
+import com.botland.backrabbit.util.Position;
+
 import java.awt.*;
 
 /**
@@ -8,13 +11,14 @@ import java.awt.*;
  */
 public class AnimatedRabbit extends AbstractAnimatedObject {
 
-    public final int MAX_JUMP_HEIGHT = 250;
+    public final Rabbit rabbit;
 
-    public AnimatedRabbit() {
+    public AnimatedRabbit(final Rabbit rabbit) {
         super(2);
+        this.rabbit = rabbit;
     }
 
-    public void paint(final Graphics g, final int x, final int y) {
+    public void paint(final Graphics g) {
         switch (getAnimationState()) {
             case 0:
                 g.setColor(Color.RED);
@@ -26,7 +30,16 @@ public class AnimatedRabbit extends AbstractAnimatedObject {
                 g.setColor(Color.BLACK);
                 break;
         }
-        g.fillOval(x, y, 30, 30);
+        final Position pos = rabbit.getPosition();
+        g.fillOval(pos.getX(), pos.getY(), rabbit.getWidth(), rabbit.getHeight());
         nextFrame();
+    }
+
+    public void paint(final Graphics g, final int x, final int y) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Rabbit getRabbit() {
+        return rabbit;
     }
 }

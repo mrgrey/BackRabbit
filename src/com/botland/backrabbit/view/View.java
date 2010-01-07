@@ -1,8 +1,9 @@
 package com.botland.backrabbit.view;
 
+import com.botland.backrabbit.model.GameScene;
+import com.botland.backrabbit.util.DIRECTIONS;
 import com.botland.backrabbit.view.Drawable.AnimatedRabbit;
 import com.botland.backrabbit.view.Drawable.AnimatedTeleport;
-import com.botland.backrabbit.view.Drawable.InteractableAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,57 +19,42 @@ import java.awt.image.BufferStrategy;
  */
 public class View extends JFrame {
 
-    private int rabbitX = 100;
-    private int rabbitY = 100;
-    //private RabbitComponent rabbitComponent = new RabbitComponent();
-    private AnimatedRabbit rabbitComponent = new AnimatedRabbit();
+    private GameScene scene;
+    private GameScenePainter gameScenePainter;
 
-    private AnimatedTeleport teleport = new AnimatedTeleport();
-    private final int teleportX = 60;
-    private final int teleportY = 60;
-
-
-    boolean leftKey = false;
-    boolean rightKey = false;
-    boolean upKey = false;
-    boolean downKey = false;
-    boolean fireKey = false;
-    private static final int STEP = 4;
+    private boolean leftKey = false;
+    private boolean rightKey = false;
+    private boolean upKey = false;
+    private boolean downKey = false;
+    private boolean fireKey = false;
     private Timer timer;
-    private boolean jump = false;
-    private int alreadyJumped = 0;
-    private boolean falldown = false;
 
 
-    public View() throws HeadlessException {
-
+    public View(final GameScene scene, final GameScenePainter gameScenePainter) throws HeadlessException {
+        this.scene = scene;
+        this.gameScenePainter = gameScenePainter;
 
         timer = new Timer(10, new ActionListener() {
 
             public void actionPerformed(final ActionEvent e) {
-                if (moveRabbit()) {
-                    repaint();
-                }
+                moveRabbit();
+                repaint();
             }
         });
         timer.start();
 
-
         setSize(new Dimension(600, 600));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                final boolean b = true;
-                keyActions(e, b);
+                keyActions(e, true);
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                final boolean b = false;
-                keyActions(e, b);
+                keyActions(e, false);
             }
         });
 
@@ -88,7 +74,9 @@ public class View extends JFrame {
                 break;
             case KeyEvent.VK_UP:
                 upKey = b;
-                if (!falldown) jump = true;
+                if (b) {
+                    scene.setRabbitJump(true);
+                }
                 break;
             case KeyEvent.VK_DOWN:
                 downKey = b;
@@ -100,57 +88,17 @@ public class View extends JFrame {
     }
 
     private boolean moveRabbit() {
-        if (!flag() && !jump && isWallDown()) {
-            falldown = false;
+        scene.doActions();
+        if (!flag()) {
             return false;
         }
-       if (rightKey && allowedRight()) {
-            rabbitX += STEP;
+        if (rightKey) {
+            scene.moveRabbit(DIRECTIONS.RIGHT);
         }
-        if (leftKey && allowedLeft()) {
-           rabbitX -=STEP;
-        }
-    //    rabbitX += rightKey ? STEP : (leftKey ? -STEP : 0);
-     //   rabbitY += downKey ? STEP : 0;
-        if (jump && alreadyJumped < rabbitComponent.MAX_JUMP_HEIGHT) {
-            rabbitY -= 4 * STEP;
-            alreadyJumped += 4 * STEP;
-        } else {
-            alreadyJumped = 0;
-            jump = false;
-        }
-        if (!isWallDown()) {
-            rabbitY += STEP;
-            falldown = true;
-        } else {
-            falldown = false;
-        }
-        if(rabbitX == teleportX && rabbitY == teleportY) {
-            teleport.interact(new InteractableAction() {
-                public void perform() {
-                    rabbitX = rabbitY = 240;
-                }
-            });
+        if (leftKey) {
+            scene.moveRabbit(DIRECTIONS.LEFT);
         }
         return true;
-    }
-
-    private boolean allowedLeft() {
-        if (rabbitX <= 30) {
-            return false;
-        }
-        if (rabbitX <= 500 && rabbitY > 370) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean allowedRight() {
-        return rabbitX <= 565;
-    }
-
-    private boolean isWallDown() {
-        return (rabbitX < 465 && rabbitY >= 370) || (rabbitY >= 570);
     }
 
     @Override
@@ -159,37 +107,10 @@ public class View extends JFrame {
         if (bs != null && bs.getDrawGraphics() != null) {
             g = bs.getDrawGraphics();
         }
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, getWidth(), getHeight());
-        rabbitComponent.paint(g, rabbitX, rabbitY);
-        teleport.paint(g, teleportX, teleportY);
-
-        g.setColor(Color.BLACK);
-        g.drawLine(0, 400, 500, 400);
-        g.drawLine(500, 400, 500, 600);
-        if (bs!= null) {
+        gameScenePainter.paint(g);
+        if (bs != null) {
             bs.show();
         }
     }
 
-    public enum DIRECTIONS {
-        UP(0, -10), DOWN(0, 10), RIGHT(10, 0), LEFT(-10, 0);
-
-        private final int x;
-        private final int y;
-
-        private DIRECTIONS(final int x, final int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-    }
 }
