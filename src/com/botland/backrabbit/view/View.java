@@ -1,6 +1,8 @@
 package com.botland.backrabbit.view;
 
 import com.botland.backrabbit.view.Drawable.AnimatedRabbit;
+import com.botland.backrabbit.view.Drawable.AnimatedTeleport;
+import com.botland.backrabbit.view.Drawable.InteractableAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +22,10 @@ public class View extends JFrame {
     private int rabbitY = 100;
     //private RabbitComponent rabbitComponent = new RabbitComponent();
     private AnimatedRabbit rabbitComponent = new AnimatedRabbit();
+
+    private AnimatedTeleport teleport = new AnimatedTeleport();
+    private final int teleportX = 60;
+    private final int teleportY = 60;
 
 
     boolean leftKey = false;
@@ -95,6 +101,13 @@ public class View extends JFrame {
         }
         rabbitX += rightKey ? STEP : (leftKey ? -STEP : 0);
         rabbitY += downKey ? STEP : (upKey ? -STEP : 0);
+        if(rabbitX == teleportX && rabbitY == teleportY) {
+            teleport.interact(new InteractableAction() {
+                public void perform() {
+                    rabbitX = rabbitY = 240;
+                }
+            });
+        }
         return true;
     }
 
@@ -107,6 +120,7 @@ public class View extends JFrame {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
         rabbitComponent.paint(g, rabbitX, rabbitY);
+        teleport.paint(g, teleportX, teleportY);
         bs.show();
     }
 

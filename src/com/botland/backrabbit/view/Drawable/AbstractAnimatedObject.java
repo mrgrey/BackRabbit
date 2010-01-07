@@ -16,4 +16,8 @@ public abstract class AbstractAnimatedObject implements Drawable {
         //TODO: Handle overflow
         currentFrame++;
     }
+
+    protected int getAnimationState() {
+        return (int)(currentFrame % animationFramesCount);
+    }
 }
