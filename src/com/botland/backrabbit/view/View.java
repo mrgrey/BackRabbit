@@ -25,73 +25,78 @@ public class View extends JFrame {
     boolean downKey = false;
     boolean fireKey = false;
     private static final int STEP = 4;
+    private Timer timer;
 
 
     public View() throws HeadlessException {
-        
 
-        new Timer(20, new ActionListener() {
+
+        timer = new Timer(10, new ActionListener() {
 
             public void actionPerformed(final ActionEvent e) {
-                moveRabbit();
-                repaint();
+                if (moveRabbit()) {
+                    repaint();
+                }
             }
-        }).start();
+        });
+        timer.start();
+
+
         setSize(new Dimension(600, 600));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_LEFT:
-                        leftKey = true;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        rightKey = true;
-                        break;
-                    case KeyEvent.VK_UP:
-                        upKey = true;
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        downKey = true;
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        fireKey = true;
-                        break;
-                }
+                final boolean b = true;
+                keyActions(e, b);
             }
 
             public void keyReleased(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_LEFT:
-                        leftKey = false;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        rightKey = false;
-                        break;
-                    case KeyEvent.VK_UP:
-                        upKey = false;
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        downKey = false;
-                        break;
-                }
-                //ect...
+                final boolean b = false;
+                keyActions(e, b);
             }
         });
 
     }
 
-    private void moveRabbit() {
+    private boolean flag() {
+        return leftKey || fireKey || rightKey || upKey || downKey;
+    }
+
+    private void keyActions(final KeyEvent e, final boolean b) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                leftKey = b;
+                break;
+            case KeyEvent.VK_RIGHT:
+                rightKey = b;
+                break;
+            case KeyEvent.VK_UP:
+                upKey = b;
+                break;
+            case KeyEvent.VK_DOWN:
+                downKey = b;
+                break;
+            case KeyEvent.VK_SPACE:
+                fireKey = b;
+                break;
+        }
+    }
+
+    private boolean moveRabbit() {
+        if (!flag()) {
+            return false;
+        }
         rabbitX += rightKey ? STEP : (leftKey ? -STEP : 0);
         rabbitY += downKey ? STEP : (upKey ? -STEP : 0);
+        return true;
     }
 
     @Override
     public void paint(Graphics g) {
         final BufferStrategy bs = this.getBufferStrategy();
-        if (bs.getDrawGraphics() != null) {
+        if (bs != null && bs.getDrawGraphics() != null) {
             g = bs.getDrawGraphics();
         }
         g.setColor(Color.WHITE);
