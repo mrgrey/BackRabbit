@@ -29,7 +29,7 @@ public class Main {
         AnimatedWall wall2 = new AnimatedWall(new BoxWall(new Position(200, 550), 500, 200), image);
         AnimatedWall wall3 = new AnimatedWall(new BoxWall(new Position(400, 150), 100, 100), image);
         AnimatedTeleport teleport = new AnimatedTeleport(new Teleport(new Position(200, 580), new Position(200,200)));
-        GameScenePainter painter = new GameScenePainter(Arrays.<JComponent>asList(rabbit, wall, wall2, wall3));
+        GameScenePainter painter = new GameScenePainter(Arrays.<JComponent>asList(rabbit, wall, wall2, wall3, teleport));
         final GameScene scene = new GameScene(Arrays.<GameObject>asList(wall.getWall(), wall2.getWall(), wall3.getWall(), teleport.getTeleport()), rabbit.getRabbit());
         View view = new View(scene, painter);
         view.setVisible(true);
