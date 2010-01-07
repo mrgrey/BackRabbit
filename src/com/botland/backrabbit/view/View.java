@@ -1,5 +1,9 @@
 package com.botland.backrabbit.view;
 
+import com.botland.backrabbit.view.Drawable.AnimatedRabbit;
+import com.botland.backrabbit.view.Drawable.AnimatedTeleport;
+import com.botland.backrabbit.view.Drawable.InteractableAction;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +20,12 @@ public class View extends JFrame {
 
     private int rabbitX = 100;
     private int rabbitY = 100;
-    private RabbitComponent rabbitComponent = new RabbitComponent();
+    //private RabbitComponent rabbitComponent = new RabbitComponent();
+    private AnimatedRabbit rabbitComponent = new AnimatedRabbit();
+
+    private AnimatedTeleport teleport = new AnimatedTeleport();
+    private final int teleportX = 60;
+    private final int teleportY = 60;
 
 
     boolean leftKey = false;
@@ -50,12 +59,16 @@ public class View extends JFrame {
 
 
         addKeyListener(new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
-                keyActions(e, true);
+                final boolean b = true;
+                keyActions(e, b);
             }
 
+            @Override
             public void keyReleased(KeyEvent e) {
-                keyActions(e, false);
+                final boolean b = false;
+                keyActions(e, b);
             }
         });
 
@@ -75,7 +88,7 @@ public class View extends JFrame {
                 break;
             case KeyEvent.VK_UP:
                 upKey = b;
-                if (!falldown)jump = b;
+                if (!falldown) jump = true;
                 break;
             case KeyEvent.VK_DOWN:
                 downKey = b;
@@ -91,7 +104,7 @@ public class View extends JFrame {
             falldown = false;
             return false;
         }
-        if (rightKey && allowedRight()) {
+       if (rightKey && allowedRight()) {
             rabbitX += STEP;
         }
         if (leftKey && allowedLeft()) {
@@ -112,7 +125,13 @@ public class View extends JFrame {
         } else {
             falldown = false;
         }
-
+        if(rabbitX == teleportX && rabbitY == teleportY) {
+            teleport.interact(new InteractableAction() {
+                public void perform() {
+                    rabbitX = rabbitY = 240;
+                }
+            });
+        }
         return true;
     }
 
@@ -143,10 +162,12 @@ public class View extends JFrame {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
         rabbitComponent.paint(g, rabbitX, rabbitY);
+        teleport.paint(g, teleportX, teleportY);
+
         g.setColor(Color.BLACK);
         g.drawLine(0, 400, 500, 400);
         g.drawLine(500, 400, 500, 600);
-        if (bs != null) {
+        if (bs!= null) {
             bs.show();
         }
     }
