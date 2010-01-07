@@ -1,5 +1,7 @@
 package com.botland.backrabbit.view;
 
+import com.botland.backrabbit.view.Drawable.AnimatedRabbit;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +18,8 @@ public class View extends JFrame {
 
     private int rabbitX = 100;
     private int rabbitY = 100;
-    private RabbitComponent rabbitComponent = new RabbitComponent();
+    //private RabbitComponent rabbitComponent = new RabbitComponent();
+    private AnimatedRabbit rabbitComponent = new AnimatedRabbit();
 
 
     boolean leftKey = false;
@@ -47,11 +50,13 @@ public class View extends JFrame {
 
 
         addKeyListener(new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 final boolean b = true;
                 keyActions(e, b);
             }
 
+            @Override
             public void keyReleased(KeyEvent e) {
                 final boolean b = false;
                 keyActions(e, b);
