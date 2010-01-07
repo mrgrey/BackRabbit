@@ -21,4 +21,8 @@ public class Position {
     public int getY() {
         return y;
     }
+
+    public static Position fromPosition(final Position position) {
+        return new Position(position.getX(), position.getY());
+    }
 }

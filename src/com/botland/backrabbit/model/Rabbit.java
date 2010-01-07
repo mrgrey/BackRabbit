@@ -7,40 +7,18 @@ import com.botland.backrabbit.util.Position;
  * Author: Vladimir Batygin
  * Date: 07.01.2010
  */
-public class Rabbit implements GameObject {
+public class Rabbit extends AbstractGameObject {
 
-    private final int height = 30;
-    private final int width = 30;
     private final int maxJumpHeight = 250;
-    private Position position;
     private int alreadyJumped;
     private boolean jumping;
     private boolean falling;
 
     public Rabbit(final Position position) {
-        this.position = position;
+        super(position);
+        height = 30;
+        width = 30;
     }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public boolean isWall() {
-        return false;
-    }
-
-    public boolean isApplicable(final GameObject object) {
-        return false;
-    }
-
 
     public void move(final DIRECTIONS directions, final int game_step) {
         position = new Position(position.getX() + directions.getX() * game_step,

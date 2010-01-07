@@ -9,6 +9,7 @@ import com.botland.backrabbit.util.Position;
 public interface GameObject {
 
     Position getPosition();
+    void setPosition(Position position);
 
     int getHeight();
 
