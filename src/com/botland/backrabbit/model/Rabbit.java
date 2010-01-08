@@ -1,6 +1,6 @@
 package com.botland.backrabbit.model;
 
-import com.botland.backrabbit.util.DIRECTIONS;
+import com.botland.backrabbit.util.Directions;
 import com.botland.backrabbit.util.Position;
 
 /**
@@ -12,12 +12,13 @@ public class Rabbit extends AbstractGameObject {
     private final int maxJumpHeight = 250;
     private int alreadyJumped;
     private RabbitState state;
+    private Directions flyDirection;
 
     public Rabbit(final Position position) {
         super(position, 30, 30);
     }
 
-    public void move(final DIRECTIONS directions, final int game_step) {
+    public void move(final Directions directions, final int game_step) {
         position = new Position(position.getX() + directions.getX() * game_step,
                 position.getY() + directions.getY() * game_step);
     }
@@ -25,7 +26,7 @@ public class Rabbit extends AbstractGameObject {
 
     public void jump(final int step) {
         if (state == RabbitState.JUMP && alreadyJumped < maxJumpHeight) {
-            move(DIRECTIONS.UP, step);
+            move(Directions.UP, step);
             alreadyJumped += step;
         } else {
             alreadyJumped = 0;
@@ -56,8 +57,17 @@ public class Rabbit extends AbstractGameObject {
         alreadyJumped = 0;
     }
 
-    public void fly(final DIRECTIONS direction) {
-        throw new UnsupportedOperationException();
+    public void fly(final Directions direction) {
+        state = RabbitState.FLY;
+        flyDirection = direction;
+    }
+
+    public Directions getFlyDirection() {
+        return flyDirection;
+    }
+
+    public boolean isFly() {
+        return state == RabbitState.FLY;
     }
 
     public static enum RabbitState {

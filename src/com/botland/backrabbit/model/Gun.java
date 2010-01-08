@@ -1,6 +1,6 @@
 package com.botland.backrabbit.model;
 
-import com.botland.backrabbit.util.DIRECTIONS;
+import com.botland.backrabbit.util.Directions;
 import com.botland.backrabbit.util.Position;
 import com.botland.backrabbit.view.Drawable.InteractableAction;
 
@@ -12,9 +12,9 @@ public class Gun extends AbstractApplicableObject implements Wall {
 
     private final static int DELTA = 5;
 
-    private final DIRECTIONS direction;
+    private final Directions direction;
 
-    public Gun(final Position position, DIRECTIONS direction) {
+    public Gun(final Position position, Directions direction) {
         super(position, 30, 30);
         this.direction = direction;
     }

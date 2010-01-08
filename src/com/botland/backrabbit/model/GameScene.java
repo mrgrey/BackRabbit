@@ -1,6 +1,6 @@
 package com.botland.backrabbit.model;
 
-import com.botland.backrabbit.util.DIRECTIONS;
+import com.botland.backrabbit.util.Directions;
 import com.botland.backrabbit.util.Position;
 
 import java.util.List;
@@ -23,13 +23,13 @@ public class GameScene {
         this.rabbit = rabbit;
     }
 
-    public void moveRabbit(final DIRECTIONS directions) {
+    public void moveRabbit(final Directions directions) {
         if (!hasWalls(directions)) {
             rabbit.move(directions, GAME_STEP);
         }
     }
 
-    private boolean hasWalls(final DIRECTIONS direction, int multiplier) {
+    private boolean hasWalls(final Directions direction, int multiplier) {
         for (final GameObject gameObject : gameObjects) {
             if (gameObject.isWall()) {
                 if (hasWall(gameObject, direction, multiplier)) {
@@ -41,7 +41,7 @@ public class GameScene {
     }
 
 
-    private boolean hasWall(final GameObject gameObject, DIRECTIONS directions, final int multiplier) {
+    private boolean hasWall(final GameObject gameObject, Directions directions, final int multiplier) {
         final Position position = new Position(rabbit.getPosition().getX() + directions.getX() * GAME_STEP * multiplier,
                 rabbit.getPosition().getY() + directions.getY() * GAME_STEP * multiplier);
         return inCube(position.getX(), position.getY(), gameObject)
@@ -64,11 +64,17 @@ public class GameScene {
     }
 
     public void doActions() {
-        if (!hasWalls(DIRECTIONS.DOWN) && !rabbit.isJumping()) {
-            rabbit.move(DIRECTIONS.DOWN, GAME_STEP);
+        if (rabbit.isFly()) {
+            if (!hasWalls(rabbit.getFlyDirection(), GAME_STEP * 2)) {
+                rabbit.move(rabbit.getFlyDirection(), GAME_STEP * 2);
+            } else {
+                rabbit.setGeneral();
+            }
+        } else if (!hasWalls(Directions.DOWN) && !rabbit.isJumping()) {
+            rabbit.move(Directions.DOWN, GAME_STEP);
             rabbit.setFalling();
         } else if (rabbit.isJumping()) {
-            if (hasWalls(DIRECTIONS.UP, JUMP_MULTIPLIER)) {
+            if (hasWalls(Directions.UP, JUMP_MULTIPLIER)) {
                 rabbit.setFalling();
             } else {
                 rabbit.jump(JUMP_MULTIPLIER * GAME_STEP);
@@ -78,7 +84,7 @@ public class GameScene {
             rabbit.setGeneral();
         }
         for(final GameObject gameObject : gameObjects) {
-            if(gameObject.isApplicable(rabbit) && isTouchApplicable(gameObject)) {
+            if(gameObject.isApplicable(rabbit)) {
                 ((Applicable)gameObject).doPositionValidatedAction(rabbit);
                 if(!isValidRabbitPosition()) {
                     ((Applicable)gameObject).rollback(rabbit);    
@@ -88,17 +94,11 @@ public class GameScene {
         }
     }
 
-    private boolean hasWalls(final DIRECTIONS up) {
+    private boolean hasWalls(final Directions up) {
        return hasWalls(up, 1);
     }
 
-    private boolean isTouchApplicable(final GameObject object) {
-        //TODO: fix to TOUCH, not being in
-        final Position rabbitPosition = rabbit.getPosition();
-        final Position objectPosition = object.getPosition();
-        return rabbitPosition.getX() == objectPosition.getX() && rabbitPosition.getY() == objectPosition.getY();
-    }
-
+   
     private boolean isValidRabbitPosition() {
         for(final GameObject gameObject : gameObjects) {
             if(gameObject instanceof Wall && isInersect(gameObject, rabbit)) {

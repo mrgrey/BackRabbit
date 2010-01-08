@@ -1,7 +1,7 @@
 package com.botland.backrabbit;
 
 import com.botland.backrabbit.model.*;
-import com.botland.backrabbit.util.DIRECTIONS;
+import com.botland.backrabbit.util.Directions;
 import com.botland.backrabbit.util.Position;
 import com.botland.backrabbit.view.Drawable.AnimatedGun;
 import com.botland.backrabbit.view.Drawable.AnimatedRabbit;
@@ -30,9 +30,9 @@ public class Main {
 
         AnimatedWall wall = new AnimatedWall(new BoxWall(new Position(0, 300), 400, 100), image);
         AnimatedWall wall2 = new AnimatedWall(new BoxWall(new Position(200, 550), 500, 200), image);
-        AnimatedWall wall3 = new AnimatedWall(new BoxWall(new Position(400, 150), 100, 100), image);
+        AnimatedWall wall3 = new AnimatedWall(new BoxWall(new Position(400, 10), 100, 200), image);
 
-        AnimatedGun gun = new AnimatedGun(new Gun(new Position(100, 100), DIRECTIONS.RIGHT));
+        AnimatedGun gun = new AnimatedGun(new Gun(new Position(100, 100), Directions.RIGHT));
         //AnimatedTeleport teleport = new AnimatedTeleport(new Teleport(new Position(100, 250), new Position(500,10)));
         AnimatedTeleport teleport = new AnimatedTeleport(new Teleport(new Position(200, 520), new Position(200,200)));
         GameScenePainter painter = new GameScenePainter(Arrays.<JComponent>asList(rabbit, wall, wall2, wall3, teleport, gun));

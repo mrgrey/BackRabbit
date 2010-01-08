@@ -32,6 +32,15 @@ public class Teleport extends AbstractApplicableObject {
 
     @Override
     public boolean isApplicable(final GameObject object) {
-        return object instanceof Rabbit;
+        return object instanceof Rabbit && isTouchApplicable(object);
     }
+
+
+    private boolean isTouchApplicable(final GameObject rabbit) {
+           //TODO: fix to TOUCH, not being in
+           final Position rabbitPosition = rabbit.getPosition();
+           final Position objectPosition = getPosition();
+           return rabbitPosition.getX() == objectPosition.getX() && rabbitPosition.getY() == objectPosition.getY();
+       }
+
 }

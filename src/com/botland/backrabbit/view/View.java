@@ -1,9 +1,7 @@
 package com.botland.backrabbit.view;
 
 import com.botland.backrabbit.model.GameScene;
-import com.botland.backrabbit.util.DIRECTIONS;
-import com.botland.backrabbit.view.Drawable.AnimatedRabbit;
-import com.botland.backrabbit.view.Drawable.AnimatedTeleport;
+import com.botland.backrabbit.util.Directions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -93,10 +91,10 @@ public class View extends JFrame {
             return false;
         }
         if (rightKey) {
-            scene.moveRabbit(DIRECTIONS.RIGHT);
+            scene.moveRabbit(Directions.RIGHT);
         }
         if (leftKey) {
-            scene.moveRabbit(DIRECTIONS.LEFT);
+            scene.moveRabbit(Directions.LEFT);
         }
         return true;
     }
