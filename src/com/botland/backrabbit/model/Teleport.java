@@ -8,6 +8,7 @@ import com.botland.backrabbit.view.Drawable.InteractableAction;
  * Date: 07.01.2010
  */
 public class Teleport extends AbstractApplicableObject {
+    private final int DELTA = 5;
     private Position targetPosition;
 
     public Teleport(final Position position, final Position targetPosition) {
@@ -40,7 +41,8 @@ public class Teleport extends AbstractApplicableObject {
            //TODO: fix to TOUCH, not being in
            final Position rabbitPosition = rabbit.getPosition();
            final Position objectPosition = getPosition();
-           return rabbitPosition.getX() == objectPosition.getX() && rabbitPosition.getY() == objectPosition.getY();
+           return Math.abs(rabbitPosition.getX() - objectPosition.getX()) <= DELTA &&
+                   Math.abs(rabbitPosition.getY() - objectPosition.getY()) <= DELTA;
        }
 
 }
