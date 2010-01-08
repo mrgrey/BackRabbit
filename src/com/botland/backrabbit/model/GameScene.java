@@ -11,11 +11,11 @@ import java.util.List;
  */
 public class GameScene {
 
-    private final int GAME_STEP = JUMP_MULTIPLIER;
+    private final int GAME_STEP = 4;
 
     private final List<GameObject> gameObjects;
     private final Rabbit rabbit;
-    private static final int JUMP_MULTIPLIER = 4;
+    private static final int JUMP_MULTIPLIER = 3;
 
 
     public GameScene(final List<GameObject> walls, final Rabbit rabbit) {
@@ -44,7 +44,7 @@ public class GameScene {
     private boolean hasWall(final GameObject gameObject, Directions directions, final int multiplier) {
         final Position position = new Position(rabbit.getPosition().getX() + directions.getX() * GAME_STEP * multiplier,
                 rabbit.getPosition().getY() + directions.getY() * GAME_STEP * multiplier);
-        return inCube(position.getX(), position.getY(), gameObject)
+        return     inCube(position.getX(), position.getY(), gameObject)
                 || inCube(position.getX() + rabbit.getWidth(), position.getY(), gameObject)
                 || inCube(position.getX(), position.getY() + rabbit.getHeight(), gameObject)
                 || inCube(position.getX() + rabbit.getWidth(), position.getY() + rabbit.getHeight(), gameObject);
@@ -52,8 +52,8 @@ public class GameScene {
 
     private boolean inCube(final int x, final int y, final GameObject gameObject) {
         final Position pos = gameObject.getPosition();
-        return x > pos.getX() && x < pos.getX() + gameObject.getWidth() &&
-                y > pos.getY() && y < pos.getY() + gameObject.getHeight();
+        return x >= pos.getX() && x <= pos.getX() + gameObject.getWidth() &&
+                y >= pos.getY() && y <= pos.getY() + gameObject.getHeight();
     }
 
     public void setRabbitJump() {

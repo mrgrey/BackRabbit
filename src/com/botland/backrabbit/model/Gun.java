@@ -20,7 +20,7 @@ public class Gun extends AbstractApplicableObject implements Wall {
     }
 
     public InteractableAction getAction(final GameObject target) {
-        return new InteractableAction(){
+        return new InteractableAction() {
 
             public void perform() {
                 ((Rabbit) target).fly(direction);
@@ -34,17 +34,17 @@ public class Gun extends AbstractApplicableObject implements Wall {
         final int diffY = object.getPosition().getY() - position.getY();
         switch (direction) {
             case UP:
-                return Math.abs(diffX) < getWidth() /2
-                        && diffY + object.getHeight()< DELTA;
+                return Math.abs(diffX) < getWidth() / 2
+                        && Math.abs(diffY + object.getHeight()) < DELTA;
             case DOWN:
-                return Math.abs(diffX) < getWidth() /2
-                        && diffY - getHeight()< DELTA;
+                return Math.abs(diffX) < getWidth() / 2
+                        && Math.abs(diffY - getHeight()) < DELTA;
             case RIGHT:
                 return Math.abs(diffX - getWidth()) < DELTA
-                        && diffY < getHeight() /2;
+                        && Math.abs(diffY) < getHeight() / 2;
             case LEFT:
                 return Math.abs(diffX + object.getWidth()) < DELTA
-                        && diffY < getHeight() / 2;
+                        && Math.abs(diffY) < getHeight() / 2;
         }
         return false;
 
