@@ -11,8 +11,7 @@ public class Rabbit extends AbstractGameObject {
 
     private final int maxJumpHeight = 250;
     private int alreadyJumped;
-    private boolean jumping;
-    private boolean falling;
+    private RabbitState state;
 
     public Rabbit(final Position position) {
         super(position);
@@ -27,32 +26,43 @@ public class Rabbit extends AbstractGameObject {
 
 
     public void jump(final int step) {
-        if (jumping && alreadyJumped < maxJumpHeight) {
+        if (state == RabbitState.JUMP && alreadyJumped < maxJumpHeight) {
             move(DIRECTIONS.UP, step);
             alreadyJumped += step;
         } else {
             alreadyJumped = 0;
-            jumping = false;
+            state = RabbitState.FALLING;
         }
     }
 
     public boolean isJumping() {
-        return jumping;
+        return state == RabbitState.JUMP;
     }
 
-    public void setJumping(final boolean b) {
-        jumping = b;
-        if (!b) {
-            alreadyJumped = 0;
-        }
+    public void setJumping() {
+        state = RabbitState.JUMP;
     }
 
 
     public boolean isFalling() {
-        return falling;
+        return state == RabbitState.FALLING;
     }
 
-    public void setFalling(final boolean b) {
-        falling = b;
+    public void setFalling() {
+        state = RabbitState.FALLING;
+        alreadyJumped = 0;
+    }
+
+    public void setGeneral(){
+        state = RabbitState.GENERAL;
+        alreadyJumped = 0;
+    }
+
+    public void fly(final DIRECTIONS direction) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public static enum RabbitState {
+        GENERAL, JUMP, FALLING, FLY
     }
 }

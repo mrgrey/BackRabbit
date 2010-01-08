@@ -12,7 +12,7 @@ import java.awt.*;
 public class AnimatedTeleport extends AbstractAnimatedObject {
     private final Teleport teleport;
     public AnimatedTeleport(Teleport teleport) {
-        super(2);
+        super(1);
 
         this.teleport = teleport;
     }

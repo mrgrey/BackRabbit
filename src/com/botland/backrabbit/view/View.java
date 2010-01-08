@@ -27,7 +27,7 @@ public class View extends JFrame {
     private boolean upKey = false;
     private boolean downKey = false;
     private boolean fireKey = false;
-    private Timer timer;
+    private final Timer timer;
 
 
     public View(final GameScene scene, final GameScenePainter gameScenePainter) throws HeadlessException {
@@ -75,7 +75,7 @@ public class View extends JFrame {
             case KeyEvent.VK_UP:
                 upKey = b;
                 if (b) {
-                    scene.setRabbitJump(true);
+                    scene.setRabbitJump();
                 }
                 break;
             case KeyEvent.VK_DOWN:

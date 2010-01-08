@@ -14,7 +14,7 @@ public class AnimatedRabbit extends AbstractAnimatedObject {
     public final Rabbit rabbit;
 
     public AnimatedRabbit(final Rabbit rabbit) {
-        super(2);
+        super(1);
         this.rabbit = rabbit;
     }
 

@@ -28,6 +28,7 @@ public class AnimatedWall extends AbstractAnimatedObject {
         //  g.drawImage(image, wall.getPosition().getX(), wall.getPosition().getY(), this);
         drawImagesInRect(g, image);
         //  g.setColor(Color.BLACK);
+        g.setColor(Color.GREEN);
         g.drawRect(wall.getPosition().getX(), wall.getPosition().getY(), wall.getWidth(), wall.getHeight());
     }
 

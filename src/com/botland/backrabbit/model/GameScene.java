@@ -56,9 +56,9 @@ public class GameScene {
                 y > pos.getY() && y < pos.getY() + gameObject.getHeight();
     }
 
-    public void setRabbitJump(boolean b) {
+    public void setRabbitJump() {
         if (!rabbit.isFalling()) {
-            rabbit.setJumping(b);
+            rabbit.setJumping();
         }
 
     }
@@ -66,17 +66,16 @@ public class GameScene {
     public void doActions() {
         if (!hasWalls(DIRECTIONS.DOWN) && !rabbit.isJumping()) {
             rabbit.move(DIRECTIONS.DOWN, GAME_STEP);
-            rabbit.setFalling(true);
-            rabbit.setJumping(false);
+            rabbit.setFalling();
         } else if (rabbit.isJumping()) {
             if (hasWalls(DIRECTIONS.UP, JUMP_MULTIPLIER)) {
-                rabbit.setJumping(false);
+                rabbit.setFalling();
             } else {
                 rabbit.jump(JUMP_MULTIPLIER * GAME_STEP);
-                rabbit.setFalling(!rabbit.isJumping());
+               // rabbit.setJumping();
             }
         } else {
-            rabbit.setFalling(false);
+            rabbit.setGeneral();
         }
         for(final GameObject gameObject : gameObjects) {
             if(gameObject.isApplicable(rabbit) && isTouchApplicable(gameObject)) {
