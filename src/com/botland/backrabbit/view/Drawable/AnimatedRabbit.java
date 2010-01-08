@@ -1,5 +1,6 @@
 package com.botland.backrabbit.view.Drawable;
 
+import com.botland.backrabbit.model.GameObject;
 import com.botland.backrabbit.model.Rabbit;
 import com.botland.backrabbit.util.Position;
 
@@ -12,6 +13,11 @@ import java.awt.*;
 public class AnimatedRabbit extends AbstractAnimatedObject {
 
     public final Rabbit rabbit;
+
+    @Override
+    public GameObject getGameObject() {
+        return rabbit;
+    }
 
     public AnimatedRabbit(final Rabbit rabbit) {
         super(1);

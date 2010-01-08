@@ -1,5 +1,6 @@
 package com.botland.backrabbit.view.Drawable;
 
+import com.botland.backrabbit.model.GameObject;
 import com.botland.backrabbit.model.Teleport;
 import com.botland.backrabbit.util.Position;
 
@@ -11,6 +12,12 @@ import java.awt.*;
  */
 public class AnimatedTeleport extends AbstractAnimatedObject {
     private final Teleport teleport;
+
+    @Override
+    public GameObject getGameObject() {
+        return teleport;
+    }
+
     public AnimatedTeleport(Teleport teleport) {
         super(1);
 

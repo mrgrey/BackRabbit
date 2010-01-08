@@ -1,5 +1,6 @@
 package com.botland.backrabbit.view.Drawable;
 
+import com.botland.backrabbit.model.GameObject;
 import com.botland.backrabbit.model.Wall;
 import com.botland.backrabbit.util.Position;
 
@@ -14,6 +15,12 @@ import java.awt.image.ImageObserver;
  */
 public class AnimatedWall extends AbstractAnimatedObject {
     private final Wall wall;
+
+    @Override
+    public GameObject getGameObject() {
+        return wall;
+    }
+
     private final Image image;
 
     public AnimatedWall(Wall wall, Image image) {

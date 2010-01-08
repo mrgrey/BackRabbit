@@ -1,7 +1,12 @@
 package com.botland.backrabbit.view;
 
+import com.botland.backrabbit.model.GameObject;
 import com.botland.backrabbit.model.GameScene;
+import com.botland.backrabbit.model.Rabbit;
+import com.botland.backrabbit.model.Wall;
 import com.botland.backrabbit.util.Directions;
+import com.botland.backrabbit.view.Drawable.AbstractAnimatedObject;
+import com.botland.backrabbit.view.Drawable.AnimatedRabbit;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +15,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Author: Vladimir Batygin
@@ -27,6 +35,15 @@ public class View extends JFrame {
     private boolean fireKey = false;
     private final Timer timer;
 
+    public static View initialize(final List<AbstractAnimatedObject> gameObjects, final AnimatedRabbit rabbit) {
+        List<GameObject> innerObjects = new ArrayList<GameObject>(gameObjects.size());
+        for(final AbstractAnimatedObject obj : gameObjects) {
+            innerObjects.add(obj.getGameObject());
+        }
+        final ArrayList<JComponent> paintableObjects = new ArrayList<JComponent>(gameObjects);
+        paintableObjects.add(rabbit);
+        return new View(new GameScene(innerObjects, rabbit.getRabbit()), new GameScenePainter(paintableObjects));
+    }
 
     public View(final GameScene scene, final GameScenePainter gameScenePainter) throws HeadlessException {
         this.scene = scene;

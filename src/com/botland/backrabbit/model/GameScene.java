@@ -18,8 +18,8 @@ public class GameScene {
     private static final int JUMP_MULTIPLIER = 3;
 
 
-    public GameScene(final List<GameObject> walls, final Rabbit rabbit) {
-        this.gameObjects = walls;
+    public GameScene(final List<GameObject> gameObjects, final Rabbit rabbit) {
+        this.gameObjects = gameObjects;
         this.rabbit = rabbit;
     }
 

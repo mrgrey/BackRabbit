@@ -1,5 +1,6 @@
 package com.botland.backrabbit.view.Drawable;
 
+import com.botland.backrabbit.model.GameObject;
 import com.botland.backrabbit.model.Gun;
 import com.botland.backrabbit.util.Position;
 
@@ -11,6 +12,11 @@ import java.awt.*;
  */
 public class AnimatedGun extends AbstractAnimatedObject {
     private final Gun gun;
+
+    @Override
+    public GameObject getGameObject() {
+        return gun;
+    }
 
     public AnimatedGun(final Gun gun) {
         super(1);

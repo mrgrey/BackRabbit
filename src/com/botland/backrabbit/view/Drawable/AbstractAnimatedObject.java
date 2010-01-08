@@ -1,5 +1,7 @@
 package com.botland.backrabbit.view.Drawable;
 
+import com.botland.backrabbit.model.GameObject;
+
 import javax.swing.*;
 
 /**
@@ -22,4 +24,6 @@ public abstract class AbstractAnimatedObject extends JComponent {
     protected int getAnimationState() {
         return (int) (currentFrame % animationFramesCount);
     }
+
+    public abstract GameObject getGameObject();
 }

@@ -35,9 +35,10 @@ public class Main {
         AnimatedGun gun = new AnimatedGun(new Gun(new Position(100, 100), Directions.RIGHT));
         //AnimatedTeleport teleport = new AnimatedTeleport(new Teleport(new Position(100, 250), new Position(500,10)));
         AnimatedTeleport teleport = new AnimatedTeleport(new Teleport(new Position(200, 520), new Position(200,200)));
-        GameScenePainter painter = new GameScenePainter(Arrays.<JComponent>asList(rabbit, wall, wall2, wall3, teleport, gun));
-        final GameScene scene = new GameScene(Arrays.<GameObject>asList(wall.getWall(), wall2.getWall(), wall3.getWall(), teleport.getTeleport(), gun.getGun()), rabbit.getRabbit());
-        View view = new View(scene, painter);
+//        GameScenePainter painter = new GameScenePainter(Arrays.<JComponent>asList(rabbit, wall, wall2, wall3, teleport, gun));
+//        final GameScene scene = new GameScene(Arrays.<GameObject>asList(wall.getWall(), wall2.getWall(), wall3.getWall(), teleport.getTeleport(), gun.getGun()), rabbit.getRabbit());
+//        View view = new View(scene, painter);
+        View view = View.initialize(Arrays.asList(wall, wall2, wall3, gun, teleport), rabbit);
         view.setVisible(true);
         view.createBufferStrategy(3);
     }
