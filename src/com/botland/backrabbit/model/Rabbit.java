@@ -14,9 +14,7 @@ public class Rabbit extends AbstractGameObject {
     private RabbitState state;
 
     public Rabbit(final Position position) {
-        super(position);
-        height = 30;
-        width = 30;
+        super(position, 30, 30);
     }
 
     public void move(final DIRECTIONS directions, final int game_step) {
@@ -59,7 +57,7 @@ public class Rabbit extends AbstractGameObject {
     }
 
     public void fly(final DIRECTIONS direction) {
-        //To change body of created methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException();
     }
 
     public static enum RabbitState {

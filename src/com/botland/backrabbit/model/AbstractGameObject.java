@@ -8,12 +8,15 @@ import com.botland.backrabbit.util.Position;
  */
 public abstract class AbstractGameObject implements GameObject {
     protected Position position;
-    protected int height;
-    protected int width;
+    private int height;
+    private int width;
 
-    protected AbstractGameObject(final Position position) {
+    protected AbstractGameObject(final Position position, int width, int height) {
         this.position = position;
+        this.height = height;
+        this.width = width;
     }
+
 
     public Position getPosition() {
         return position;
@@ -23,11 +26,11 @@ public abstract class AbstractGameObject implements GameObject {
         this.position = position;
     }
 
-    public int getHeight() {
+    public final int getHeight() {
         return height;
     }
 
-    public int getWidth() {
+    public final int getWidth() {
         return width;
     }
 

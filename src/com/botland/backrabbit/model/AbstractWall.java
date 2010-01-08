@@ -7,8 +7,8 @@ import com.botland.backrabbit.util.Position;
  * Date: 08.01.2010
  */
 public abstract class AbstractWall extends AbstractGameObject implements Wall {
-    protected AbstractWall(final Position position) {
-        super(position);
+    protected AbstractWall(final Position position, int width, int height) {
+        super(position, width, height);
     }
 
     @Override

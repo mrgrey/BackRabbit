@@ -9,8 +9,6 @@ import com.botland.backrabbit.util.Position;
 public class BoxWall extends AbstractWall {
 
     public BoxWall(final Position position, final int width, final int height) {
-        super(position);
-        this.height = height;
-        this.width = width;
+        super(position, width, height);
     }
 }

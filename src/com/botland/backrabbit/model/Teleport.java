@@ -11,10 +11,8 @@ public class Teleport extends AbstractApplicableObject {
     private Position targetPosition;
 
     public Teleport(final Position position, final Position targetPosition) {
-        super(position);
+        super(position, 30, 30);
         this.targetPosition = targetPosition;
-        height = 30;
-        width = 30;
     }
 
     public InteractableAction getAction(final GameObject object) {

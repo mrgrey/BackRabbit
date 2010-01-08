@@ -12,8 +12,8 @@ import java.util.Map;
 public abstract class AbstractApplicableObject extends AbstractGameObject implements Applicable {
     private Map<GameObject, Position> backupPositions = new HashMap<GameObject, Position>();
 
-    protected AbstractApplicableObject(final Position position) {
-        super(position);
+    protected AbstractApplicableObject(final Position position, int height, int width) {
+        super(position, height, width);
     }
 
     public void doPositionValidatedAction(final GameObject target) {
