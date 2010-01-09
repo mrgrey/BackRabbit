@@ -80,6 +80,7 @@ public class GameScene {
             rabbit.setFalling();
         } else if (rabbit.isJumping()) {
             if (hasWalls(Directions.UP, JUMP_MULTIPLIER)) {
+                proceedToWall(Directions.UP, GAME_STEP * 4);
                 rabbit.setFalling();
             } else {
                 rabbit.jump(JUMP_MULTIPLIER * GAME_STEP);

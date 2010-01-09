@@ -14,16 +14,15 @@ import java.awt.image.ImageObserver;
  * Date: 07.01.2010
  */
 public class AnimatedWall extends AbstractAnimatedObject {
-    private final Wall wall;
+    protected final GameObject wall;
+    protected final Image image;
 
     @Override
     public GameObject getGameObject() {
         return wall;
     }
 
-    private final Image image;
-
-    public AnimatedWall(Wall wall, Image image) {
+    public AnimatedWall(GameObject wall, Image image) {
         super(1);
 
         this.wall = wall;
@@ -53,11 +52,11 @@ public class AnimatedWall extends AbstractAnimatedObject {
         g2d.setStroke(new BasicStroke(5));
         g2d.draw(s);
 
-        g.setColor(Color.GREEN);
+        g.setColor(Color.BLACK);
         g.drawRect(wall.getPosition().getX(), wall.getPosition().getY(), wall.getWidth(), wall.getHeight());
     }
 
-    public Wall getWall() {
+    public GameObject getWall() {
         return wall;
     }
 

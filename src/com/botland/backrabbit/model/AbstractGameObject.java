@@ -6,12 +6,12 @@ import com.botland.backrabbit.util.Position;
  * User: Yury Chuyko aka mrgrey
  * Date: 07.01.2010
  */
-public abstract class AbstractGameObject implements GameObject {
+public class AbstractGameObject implements GameObject {
     protected Position position;
     private int height;
     private int width;
 
-    protected AbstractGameObject(final Position position, int width, int height) {
+    public AbstractGameObject(final Position position, int width, int height) {
         this.position = position;
         this.height = height;
         this.width = width;
