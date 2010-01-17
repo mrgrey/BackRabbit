@@ -34,27 +34,15 @@ public class Rabbit extends AbstractGameObject {
         }
     }
 
-    public boolean isJumping() {
-        return state == RabbitState.JUMP;
+    public RabbitState getState() {
+        return state;
     }
 
-    public void setJumping() {
-        state = RabbitState.JUMP;
-    }
-
-
-    public boolean isFalling() {
-        return state == RabbitState.FALLING;
-    }
-
-    public void setFalling() {
-        state = RabbitState.FALLING;
-        alreadyJumped = 0;
-    }
-
-    public void setGeneral(){
-        state = RabbitState.GENERAL;
-        alreadyJumped = 0;
+    public void setState(final RabbitState state) {
+        this.state = state;
+        if (state != RabbitState.JUMP) {
+            alreadyJumped = 0;
+        }
     }
 
     public void fly(final Directions direction) {
@@ -66,11 +54,4 @@ public class Rabbit extends AbstractGameObject {
         return flyDirection;
     }
 
-    public boolean isFly() {
-        return state == RabbitState.FLY;
-    }
-
-    public static enum RabbitState {
-        GENERAL, JUMP, FALLING, FLY
-    }
 }

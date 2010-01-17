@@ -60,34 +60,34 @@ public class GameScene {
     }
 
     public void setRabbitJump() {
-        if (!rabbit.isFalling()) {
-            rabbit.setJumping();
+        if (rabbit.getState() != RabbitState.FALLING) {
+            rabbit.setState(RabbitState.JUMP);
         }
 
     }
 
     public void doActions() {
-        if (rabbit.isFly()) {
+        if (rabbit.getState() == RabbitState.FLY) {
             if (!hasWalls(rabbit.getFlyDirection(), GAME_STEP * 2)) {
                 rabbit.move(rabbit.getFlyDirection(), GAME_STEP * 2);
             } else {
                 proceedToWall(rabbit.getFlyDirection(), GAME_STEP * 2);
-                rabbit.setGeneral();
+                rabbit.setState(RabbitState.STOP);
             }
-        } else if (!hasWalls(Directions.DOWN) && !rabbit.isJumping()) {
+        } else if (!hasWalls(Directions.DOWN) && rabbit.getState() != RabbitState.JUMP) {
             rabbit.move(Directions.DOWN, GAME_STEP);
             proceedToWall(Directions.DOWN, GAME_STEP);
-            rabbit.setFalling();
-        } else if (rabbit.isJumping()) {
+            rabbit.setState(RabbitState.FALLING);
+        } else if (rabbit.getState() == RabbitState.JUMP) {
             if (hasWalls(Directions.UP, JUMP_MULTIPLIER)) {
                 proceedToWall(Directions.UP, GAME_STEP * 4);
-                rabbit.setFalling();
+                rabbit.setState(RabbitState.FALLING);
             } else {
                 rabbit.jump(JUMP_MULTIPLIER * GAME_STEP);
                // rabbit.setJumping();
             }
         } else {
-            rabbit.setGeneral();
+            rabbit.setState(RabbitState.STOP);
         }
         for(final GameObject gameObject : gameObjects) {
             if(gameObject.isApplicable(rabbit)) {

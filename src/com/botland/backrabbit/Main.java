@@ -9,6 +9,7 @@ import com.botland.backrabbit.view.View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +40,9 @@ public class Main {
         View view = View.initialize(foo(), rabbit);
         view.setVisible(true);
         view.createBufferStrategy(3);
+
+
+
     }
 
 
@@ -56,7 +60,7 @@ public class Main {
                 new AnimatedWall(new BoxWall(new Position(450, 90), 150, 30), w1),
                 new AnimatedWall(new BoxWall(new Position(0, 150), 180, 60), w2),
                 new AnimatedWall(new BoxWall(new Position(300, 180), 240, 30), w2),
-                new AnimatedWall(new BoxWall(new Position(30, 350), 60, 210), w1),
+               //To change body of implemented methods use File | Settings | File Templates. new AnimatedWall(new BoxWall(new Position(30, 350), 60, 210), w1),
                 new AnimatedWall(new BoxWall(new Position(240, 360), 300, 30), w1),
                 new AnimatedWall(new BoxWall(new Position(90, 450), 270, 60), w1),
                 new AnimatedWall(new BoxWall(new Position(450, 450), 90, 60), w2),
