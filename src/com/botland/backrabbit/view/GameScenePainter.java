@@ -1,6 +1,6 @@
 package com.botland.backrabbit.view;
 
-import com.botland.backrabbit.model.GameScene;
+import com.botland.backrabbit.view.Drawable.AbstractAnimatedObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +12,9 @@ import java.util.List;
  */
 public class GameScenePainter {
 
-    private final List<JComponent> components;
+    private final List<AbstractAnimatedObject> components;
 
-    public GameScenePainter(final List<JComponent> components) {
+    public GameScenePainter(final List<AbstractAnimatedObject> components) {
         this.components = components;
     }
 
@@ -30,6 +30,18 @@ public class GameScenePainter {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, 600, 600);
 
+    }
+
+    public boolean needRepaint() {
+        boolean flag = false;
+
+        // this is small hack, don't refactor or refactor carefully
+        for (AbstractAnimatedObject component : components) {
+            if (component.changed()) {
+                flag = true;
+            }
+        }
+        return flag;
     }
 
 }

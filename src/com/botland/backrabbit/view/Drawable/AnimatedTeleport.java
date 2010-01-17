@@ -45,4 +45,9 @@ public class AnimatedTeleport extends AbstractAnimatedObject {
 
         nextFrame();
     }
+
+    @Override
+    public boolean changed() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

@@ -13,14 +13,22 @@ public class Rabbit extends AbstractGameObject {
     private int alreadyJumped;
     private RabbitState state;
     private Directions flyDirection;
+    private Directions moveDirection;
+    private boolean move;
+    private boolean lastactioned;
 
     public Rabbit(final Position position) {
         super(position, 30, 30);
+        state = RabbitState.STOP;
     }
 
     public void move(final Directions directions, final int game_step) {
         position = new Position(position.getX() + directions.getX() * game_step,
                 position.getY() + directions.getY() * game_step);
+    }
+
+    public void move(final int step) {
+        move(moveDirection, step);
     }
 
 
@@ -32,6 +40,7 @@ public class Rabbit extends AbstractGameObject {
             alreadyJumped = 0;
             state = RabbitState.FALLING;
         }
+        lastactioned = true;
     }
 
     public RabbitState getState() {
@@ -54,4 +63,22 @@ public class Rabbit extends AbstractGameObject {
         return flyDirection;
     }
 
+    public void setMove(final boolean b, final Directions direction) {
+        move = b;
+        moveDirection = direction;
+    }
+
+    public boolean isMove() {
+        return move;
+    }
+
+    public Directions getMoveDirection() {
+        return moveDirection;
+    }
+
+    public boolean getLastactioned() {
+        boolean tmp = lastactioned;
+        lastactioned = false;
+        return tmp;
+    }
 }

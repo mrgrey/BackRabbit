@@ -2,9 +2,12 @@ package com.botland.backrabbit.view.Drawable;
 
 import com.botland.backrabbit.model.GameObject;
 import com.botland.backrabbit.model.Rabbit;
+import com.botland.backrabbit.model.RabbitState;
 import com.botland.backrabbit.util.Position;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * User: Yury Chuyko aka mrgrey
@@ -14,35 +17,39 @@ public class AnimatedRabbit extends AbstractAnimatedObject {
 
     public final Rabbit rabbit;
 
+    public final List<Image> images;
+
     @Override
     public GameObject getGameObject() {
         return rabbit;
     }
 
-    public AnimatedRabbit(final Rabbit rabbit) {
+    public AnimatedRabbit(final Rabbit rabbit, List<Image> imageList) {
         super(1);
+        images = imageList;
         this.rabbit = rabbit;
     }
 
     public void paint(final Graphics g) {
-        switch (getAnimationState()) {
-            case 0:
-                g.setColor(Color.RED);
-                break;
-            case 1:
-                g.setColor(Color.YELLOW);
-                break;
-            default:  //TODO: unnecessary
-                g.setColor(Color.BLACK);
-                break;
+        final Image image;
+        if (rabbit.isMove() && rabbit.getState() == RabbitState.STOP) {
+            image = changeImage();
+        } else {
+            image = images.get(0);
         }
         final Position pos = rabbit.getPosition();
-        g.fillOval(pos.getX(), pos.getY(), rabbit.getWidth(), rabbit.getHeight());
-        nextFrame();
+        g.drawImage(image, pos.getX(), pos.getY(), rabbit.getWidth(), rabbit.getHeight(), this);
     }
 
-    public void paint(final Graphics g, final int x, final int y) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    private Image changeImage() {
+        final int size = images.size();
+        final int i = getCurTime() % size;
+        return images.get(i);
+    }
+
+    @Override
+    public boolean changed() {
+        return rabbit.isMove() || rabbit.getState() != RabbitState.STOP || rabbit.getLastactioned();
     }
 
     public Rabbit getRabbit() {

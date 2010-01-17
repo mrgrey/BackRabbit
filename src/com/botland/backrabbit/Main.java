@@ -9,6 +9,7 @@ import com.botland.backrabbit.view.View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -24,25 +25,22 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         System.out.println("Hello, I am Back Rabbit!");
-        AnimatedRabbit rabbit = new AnimatedRabbit(new Rabbit(new Position(480, 330)));
-        final BufferedImage image = ImageIO.read(new File("images/wall.gif"));
-
-        AnimatedWall wall = new AnimatedWall(new BoxWall(new Position(0, 300), 400, 100), image);
-        AnimatedWall wall2 = new AnimatedWall(new BoxWall(new Position(200, 550), 500, 200), image);
-        AnimatedWall wall3 = new AnimatedWall(new BoxWall(new Position(400, 30), 100, 200), image);
-
-        AnimatedGun gun = new AnimatedGun(new Gun(new Position(460, 500), Directions.UP));
-        //AnimatedTeleport teleport = new AnimatedTeleport(new Teleport(new Position(100, 250), new Position(500,10)));
-        AnimatedTeleport teleport = new AnimatedTeleport(new Teleport(new Position(200, 520), new Position(200, 200)));
-//        GameScenePainter painter = new GameScenePainter(Arrays.<JComponent>asList(rabbit, wall, wall2, wall3, teleport, gun));
-//        final GameScene scene = new GameScene(Arrays.<GameObject>asList(wall.getWall(), wall2.getWall(), wall3.getWall(), teleport.getTeleport(), gun.getGun()), rabbit.getRabbit());
-//        View view = new View(scene, painter);
+        AnimatedRabbit rabbit = getRabbit();
         View view = View.initialize(foo(), rabbit);
         view.setVisible(true);
         view.createBufferStrategy(3);
+        view.gameStart();
 
 
+    }
 
+    private static AnimatedRabbit getRabbit() throws IOException {
+        return new AnimatedRabbit(new Rabbit(new Position(480, 330)), Arrays.<Image>asList(
+                ImageIO.read(new File("images/rabbit/r01.gif")),
+                ImageIO.read(new File("images/rabbit/r2.gif")),
+                ImageIO.read(new File("images/rabbit/r3.gif")),
+                ImageIO.read(new File("images/rabbit/r4.gif"))
+        ));
     }
 
 
@@ -60,7 +58,6 @@ public class Main {
                 new AnimatedWall(new BoxWall(new Position(450, 90), 150, 30), w1),
                 new AnimatedWall(new BoxWall(new Position(0, 150), 180, 60), w2),
                 new AnimatedWall(new BoxWall(new Position(300, 180), 240, 30), w2),
-               //To change body of implemented methods use File | Settings | File Templates. new AnimatedWall(new BoxWall(new Position(30, 350), 60, 210), w1),
                 new AnimatedWall(new BoxWall(new Position(240, 360), 300, 30), w1),
                 new AnimatedWall(new BoxWall(new Position(90, 450), 270, 60), w1),
                 new AnimatedWall(new BoxWall(new Position(450, 450), 90, 60), w2),

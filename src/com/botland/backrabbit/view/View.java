@@ -28,21 +28,21 @@ public class View extends JFrame {
     private GameScene scene;
     private GameScenePainter gameScenePainter;
 
-    private boolean leftKey = false;
-    private boolean rightKey = false;
-    private boolean upKey = false;
-    private boolean downKey = false;
-    private boolean fireKey = false;
     private final Timer timer;
 
     public static View initialize(final List<AbstractAnimatedObject> gameObjects, final AnimatedRabbit rabbit) {
         List<GameObject> innerObjects = new ArrayList<GameObject>(gameObjects.size());
-        for(final AbstractAnimatedObject obj : gameObjects) {
+        for (final AbstractAnimatedObject obj : gameObjects) {
             innerObjects.add(obj.getGameObject());
         }
-        final ArrayList<JComponent> paintableObjects = new ArrayList<JComponent>(gameObjects);
+        final List<AbstractAnimatedObject> paintableObjects = new ArrayList<AbstractAnimatedObject>(gameObjects);
         paintableObjects.add(rabbit);
+        AbstractAnimatedObject.timer.start();
         return new View(new GameScene(innerObjects, rabbit.getRabbit()), new GameScenePainter(paintableObjects));
+    }
+
+    public void gameStart() {
+        timer.start();
     }
 
     public View(final GameScene scene, final GameScenePainter gameScenePainter) throws HeadlessException {
@@ -52,11 +52,11 @@ public class View extends JFrame {
         timer = new Timer(10, new ActionListener() {
 
             public void actionPerformed(final ActionEvent e) {
-                moveRabbit();
+                scene.doActions();
                 repaint();
             }
         });
-        timer.start();
+
 
         setSize(new Dimension(600, 600));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -75,56 +75,33 @@ public class View extends JFrame {
 
     }
 
-    private boolean flag() {
-        return leftKey || fireKey || rightKey || upKey || downKey;
-    }
-
     private void keyActions(final KeyEvent e, final boolean b) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
-                leftKey = b;
+                scene.moveRabbit(Directions.LEFT, b);
                 break;
             case KeyEvent.VK_RIGHT:
-                rightKey = b;
+                scene.moveRabbit(Directions.RIGHT, b);
                 break;
             case KeyEvent.VK_UP:
-                upKey = b;
                 if (b) {
                     scene.setRabbitJump();
                 }
                 break;
-            case KeyEvent.VK_DOWN:
-                downKey = b;
-                break;
-            case KeyEvent.VK_SPACE:
-                fireKey = b;
-                break;
         }
-    }
-
-    private boolean moveRabbit() {
-        scene.doActions();
-        if (!flag()) {
-            return false;
-        }
-        if (rightKey) {
-            scene.moveRabbit(Directions.RIGHT);
-        }
-        if (leftKey) {
-            scene.moveRabbit(Directions.LEFT);
-        }
-        return true;
     }
 
     @Override
     public void paint(Graphics g) {
-        final BufferStrategy bs = this.getBufferStrategy();
-        if (bs != null && bs.getDrawGraphics() != null) {
-            g = bs.getDrawGraphics();
-        }
-        gameScenePainter.paint(g);
-        if (bs != null) {
-            bs.show();
+        if (gameScenePainter.needRepaint()) {
+            final BufferStrategy bs = this.getBufferStrategy();
+            if (bs != null && bs.getDrawGraphics() != null) {
+                g = bs.getDrawGraphics();
+            }
+            gameScenePainter.paint(g);
+            if (bs != null) {
+                bs.show();
+            }
         }
     }
 

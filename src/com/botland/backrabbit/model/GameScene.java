@@ -23,10 +23,9 @@ public class GameScene {
         this.rabbit = rabbit;
     }
 
-    public void moveRabbit(final Directions directions) {
-        if (!hasWalls(directions)) {
-            rabbit.move(directions, GAME_STEP);
-        }
+    public void moveRabbit(final Directions direction, final boolean b) {
+        rabbit.setMove(b, direction);
+
     }
 
     private boolean hasWalls(final Directions direction, int multiplier) {
@@ -47,7 +46,7 @@ public class GameScene {
     private boolean hasWall(final GameObject gameObject, Directions directions, final int step, final int multiplier) {
         final Position position = new Position(rabbit.getPosition().getX() + directions.getX() * step * multiplier,
                 rabbit.getPosition().getY() + directions.getY() * step * multiplier);
-        return     inCube(position.getX(), position.getY(), gameObject)
+        return inCube(position.getX(), position.getY(), gameObject)
                 || inCube(position.getX() + rabbit.getWidth(), position.getY(), gameObject)
                 || inCube(position.getX(), position.getY() + rabbit.getHeight(), gameObject)
                 || inCube(position.getX() + rabbit.getWidth(), position.getY() + rabbit.getHeight(), gameObject);
@@ -67,6 +66,9 @@ public class GameScene {
     }
 
     public void doActions() {
+        if (rabbit.isMove() && !hasWalls(rabbit.getMoveDirection())) {
+            rabbit.move(GAME_STEP);
+        }
         if (rabbit.getState() == RabbitState.FLY) {
             if (!hasWalls(rabbit.getFlyDirection(), GAME_STEP * 2)) {
                 rabbit.move(rabbit.getFlyDirection(), GAME_STEP * 2);
@@ -84,16 +86,15 @@ public class GameScene {
                 rabbit.setState(RabbitState.FALLING);
             } else {
                 rabbit.jump(JUMP_MULTIPLIER * GAME_STEP);
-               // rabbit.setJumping();
             }
         } else {
             rabbit.setState(RabbitState.STOP);
         }
-        for(final GameObject gameObject : gameObjects) {
-            if(gameObject.isApplicable(rabbit)) {
-                ((Applicable)gameObject).doPositionValidatedAction(rabbit);
-                if(!isValidRabbitPosition()) {
-                    ((Applicable)gameObject).rollback(rabbit);    
+        for (final GameObject gameObject : gameObjects) {
+            if (gameObject.isApplicable(rabbit)) {
+                ((Applicable) gameObject).doPositionValidatedAction(rabbit);
+                if (!isValidRabbitPosition()) {
+                    ((Applicable) gameObject).rollback(rabbit);
                 }
                 break;
             }
@@ -101,13 +102,13 @@ public class GameScene {
     }
 
     private boolean hasWalls(final Directions up) {
-       return hasWalls(up, 1);
+        return hasWalls(up, 1);
     }
 
-   
+
     private boolean isValidRabbitPosition() {
-        for(final GameObject gameObject : gameObjects) {
-            if(gameObject instanceof Wall && isInersect(gameObject, rabbit)) {
+        for (final GameObject gameObject : gameObjects) {
+            if (gameObject instanceof Wall && isInersect(gameObject, rabbit)) {
                 return false;
             }
         }
@@ -119,9 +120,9 @@ public class GameScene {
     }
 
     private void proceedToWall(Directions direction, int limit) {
-        for(int pixelsToWall = 1; pixelsToWall <= limit + 10; pixelsToWall++) {
-            if(hasWalls(direction, 1, pixelsToWall)) {
-                rabbit.move(direction, pixelsToWall-1);
+        for (int pixelsToWall = 1; pixelsToWall <= limit + 10; pixelsToWall++) {
+            if (hasWalls(direction, 1, pixelsToWall)) {
+                rabbit.move(direction, pixelsToWall - 1);
                 return;
             }
         }

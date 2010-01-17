@@ -56,6 +56,11 @@ public class AnimatedWall extends AbstractAnimatedObject {
         g.drawRect(wall.getPosition().getX(), wall.getPosition().getY(), wall.getWidth(), wall.getHeight());
     }
 
+    @Override
+    public boolean changed() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public GameObject getWall() {
         return wall;
     }

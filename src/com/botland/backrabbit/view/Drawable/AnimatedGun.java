@@ -41,6 +41,11 @@ public class AnimatedGun extends AbstractAnimatedObject {
         nextFrame();
     }
 
+    @Override
+    public boolean changed() {
+        return false;
+    }
+
     public Gun getGun() {
         return gun;
     }
